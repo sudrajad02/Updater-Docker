@@ -1,0 +1,22 @@
+# Binaries for the current project
+*.exe
+*.bin
+# For cross-compilation
+*/bin/
+
+# Go build cache
+.cache/go-build/
+
+# Dependency management
+vendor/
+go.sum
+
+# Editor-specific files (examples)
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# OS generated files
+.DS_Store
+Thumbs.db
