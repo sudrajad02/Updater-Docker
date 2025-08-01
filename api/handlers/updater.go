@@ -52,6 +52,11 @@ func UpdateDocker(service updater.Service) fiber.Handler {
 			return c.JSON(presenter.UpdaterErrorResponse(errors.New("gagal membaca request body")))
 		}
 
+		if req.Path == "" {
+			c.Status(http.StatusInternalServerError)
+			return c.JSON(presenter.UpdaterErrorResponse(errors.New("path tidak boleh kosong.")))
+		}
+
 		if req.NameDocker == "" {
 			c.Status(http.StatusInternalServerError)
 			return c.JSON(presenter.UpdaterErrorResponse(errors.New("nama image tidak boleh kosong.")))

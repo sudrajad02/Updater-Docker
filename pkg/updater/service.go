@@ -81,7 +81,7 @@ func (s *service) UpdateDocker(req presenter.UpdaterRequest) ([]byte, error) {
 	command := strings.Join(commands, " && ")
 
 	cmd := exec.Command("/bin/sh", "-c", command)
-	cmd.Dir = ".."
+	cmd.Dir = req.Path
 
 	output, err := cmd.CombinedOutput()
 	if err != nil {

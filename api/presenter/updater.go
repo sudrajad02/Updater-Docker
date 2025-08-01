@@ -9,6 +9,7 @@ type CreateRequest struct {
 
 type UpdaterRequest struct {
 	NameDocker string `json:"name_docker"`
+	Path       string `json:"path"`
 }
 
 func UpdaterSuccessResponse(output string) *fiber.Map {
