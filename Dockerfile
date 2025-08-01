@@ -1,27 +1,10 @@
-# Gunakan image Golang untuk build
-FROM golang:1.22 AS builder
+FROM alpine:latest
 
+# Set permission dan working directory
 WORKDIR /app
+COPY build/linux/app_v1.1.0 .
 
-# Copy go.mod dan go.sum terlebih dahulu
-COPY go.mod go.sum ./
-RUN go mod download
+RUN chmod +x app_v1.1.0
 
-# Copy seluruh isi project
-COPY . .
-
-# Build binary dari cmd/main.go
-RUN go build -o main ./cmd/main.go
-
-# Runtime container
-FROM debian:bookworm-slim
-
-WORKDIR /root/
-
-# Copy binary dari stage builder
-COPY --from=builder /app/main .
-
-# Expose port aplikasi (ubah sesuai yang digunakan)
-EXPOSE 10000
-
-CMD ["./main"]
+# Jalankan aplikasi
+CMD ["./app_v1.1.0"]
