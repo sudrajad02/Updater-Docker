@@ -36,7 +36,8 @@ func main() {
 	app.Use(logger.New())
 
 	updateDockerService := updater.NewService()
-	routes.BookRouter(app, updateDockerService)
+	api := app.Group("/api")
+	routes.UpdaterRouter(api, updateDockerService)
 
 	port := ":10000"
 	fmt.Printf("🚀 Updater jalan di port %s\n", port)
