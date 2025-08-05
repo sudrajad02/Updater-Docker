@@ -2,6 +2,7 @@ package updater
 
 import (
 	"fmt"
+	"log"
 	"os/exec"
 	"strings"
 	"updater-docker/api/presenter"
@@ -19,12 +20,14 @@ func NewService() Service {
 }
 
 func (s *service) CreateDocker(req presenter.CreateRequest) (string, error) {
+	log.Println(111, req.Path, req.ClientName)
 	// Prepare the command
 	cmd := exec.Command("docker", "compose", "up", "-d")
 	cmd.Dir = req.Path
 
 	// Capture stdout and stderr
 	stdout, err := cmd.StdoutPipe()
+	log.Println(222, stdout, err)
 	if err != nil {
 		return "", fmt.Errorf("error creating stdout pipe: %w", err)
 	}
@@ -35,6 +38,7 @@ func (s *service) CreateDocker(req presenter.CreateRequest) (string, error) {
 
 	// Start the command
 	if err := cmd.Start(); err != nil {
+		log.Println(333, err)
 		return "", fmt.Errorf("error starting command: %w", err)
 	}
 
@@ -44,6 +48,7 @@ func (s *service) CreateDocker(req presenter.CreateRequest) (string, error) {
 		for {
 			n, err := stdout.Read(buf)
 			if err != nil {
+				log.Println(444, err)
 				break
 			}
 			fmt.Printf("🟢 Docker STDOUT: %s", buf[:n])
@@ -56,6 +61,7 @@ func (s *service) CreateDocker(req presenter.CreateRequest) (string, error) {
 		for {
 			n, err := stderr.Read(buf)
 			if err != nil {
+				log.Println(555, err)
 				break
 			}
 			fmt.Printf("🔴 Docker STDERR: %s", buf[:n])
@@ -64,6 +70,7 @@ func (s *service) CreateDocker(req presenter.CreateRequest) (string, error) {
 
 	// Wait for the command to finish
 	if err := cmd.Wait(); err != nil {
+		log.Println(666, err)
 		return "", fmt.Errorf("docker compose exited with error: %w", err)
 	}
 
