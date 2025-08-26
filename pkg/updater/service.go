@@ -92,7 +92,7 @@ func (s *service) UpdateDocker(req presenter.UpdaterRequest) ([]byte, error) {
 
 	output, err := cmd.CombinedOutput()
 	if err != nil {
-		return nil, err
+		return output, fmt.Errorf("failed to run command: %s\nerror: %v", string(output), err)
 	}
 
 	return output, nil
