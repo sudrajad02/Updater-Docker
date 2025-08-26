@@ -81,8 +81,7 @@ func (s *service) CreateDocker(req presenter.CreateRequest) (string, error) {
 
 func (s *service) UpdateDocker(req presenter.UpdaterRequest) ([]byte, error) {
 	commands := []string{
-		"docker pull " + req.NameDocker,
-		"docker compose up -d",
+		"docker compose up -d --force-recreate",
 	}
 
 	command := strings.Join(commands, " && ")
